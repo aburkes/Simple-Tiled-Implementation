@@ -377,6 +377,20 @@ function Map:setTileData(layer)
 		for _, chunk in ipairs(layer.chunks) do
 			self:setTileData(chunk)
 		end
+		
+		-- flatten chunks into single data table
+		local data = {}
+		for _, chunk in ipairs(layer.chunks) do
+			for row, column in ipairs(chunk.data) do
+				data[row + chunk.x] = {}
+				for k, v in ipairs(column) do
+					data[row][k + chunk.x] = v
+				end
+			end
+		end
+		layer.data = data
+		layer.chunks = nil
+		
 		return
 	end
 
@@ -1746,3 +1760,5 @@ end
 -- @see Map.objects
 
 return setmetatable({}, STI)
+
+
