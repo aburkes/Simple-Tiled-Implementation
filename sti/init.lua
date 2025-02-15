@@ -612,9 +612,17 @@ function Map:set_batches(layer, chunk)
 				-- NOTE: Cannot short circuit this since it is valid for tile to be assigned nil
 				local tile
 				if chunk then
-					tile = chunk.data[y][x]
+					if chunk.tile[y] then
+						tile = chunk.data[y][x]
+					else
+						tile = nil
+					end
 				else
-					tile = layer.data[y][x]
+					if layer.data[y] then
+						tile = layer.data[y][x]
+					else
+						tile = nil
+					end
 				end
 
 				if tile then
